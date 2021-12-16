@@ -27,7 +27,7 @@ func TestTxnPanics(t *testing.T) {
 
 	kv := &kv{}
 
-	errc := make(chan string, 6)
+	errc := make(chan string, 1)
 	df := func() {
 		if s := recover(); s != nil {
 			errc <- s.(string)

@@ -96,7 +96,6 @@ func testServer(t *testing.T, scheme string, secure bool, delayTx bool) {
 	writec <- data1
 	now := time.Now()
 	if d := <-recvc; !bytes.Equal(data1, d) {
-		close(writec)
 		t.Fatalf("expected %q, got %q", string(data1), string(d))
 	}
 	took1 := time.Since(now)
@@ -111,7 +110,6 @@ func testServer(t *testing.T, scheme string, secure bool, delayTx bool) {
 	writec <- data2
 	now = time.Now()
 	if d := <-recvc; !bytes.Equal(data2, d) {
-		close(writec)
 		t.Fatalf("expected %q, got %q", string(data2), string(d))
 	}
 	took2 := time.Since(now)
@@ -124,7 +122,6 @@ func testServer(t *testing.T, scheme string, secure bool, delayTx bool) {
 	if delayTx {
 		p.UndelayTx()
 		if took2 < lat-rv {
-			close(writec)
 			t.Fatalf("expected took2 %v (with latency) > delay: %v", took2, lat-rv)
 		}
 	}
